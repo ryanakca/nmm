@@ -1,4 +1,5 @@
-CFLAGS:=-Wall -Wextra -pedantic -Werror=format-security -fstack-protector-all $(CFLAGS)
+CFLAGS:= -Wall -Wextra -ansi -pedantic -Werror=format-security \
+	 -fstack-protector-all $(CFLAGS)
 CFLAGS:=-g $(CFLAGS)
 
 PREFIX=/usr/local
@@ -23,6 +24,7 @@ install: nmm tmm twmm installman
 	install -m 555 twmm $(PREFIX)/games/
 
 installman: nmm.6 tmm.6 twmm.6
+	-mkdir -p $(MANPATH)/man6/
 	install -m 444 nmm.6 $(MANPATH)/man6/
 	install -m 444 tmm.6 $(MANPATH)/man6/tmm.6
 	install -m 444 twmm.6 $(MANPATH)/man6/twmm.6
@@ -42,6 +44,6 @@ uninstall:
 		$(MANPATH)/man6/twmm.6
 
 clean:
-	rm nmm
+	-rm -f tmm nmm twmm tmm.6 twmm.6
 
 .PHONY: clean install installman
