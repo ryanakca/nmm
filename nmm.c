@@ -33,6 +33,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/cdefs.h>
+
+/*
+ * __dead isn't defined everywhere; although it's typically installed
+ * in sys/cdefs.h. The following is based off of OpenBSD's
+ * sys/cdefs.h
+ */
+#if !defined(__dead) && defined(__dead2)
+#define __dead	__dead2
+#elif !defined(__dead) && defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#define __dead	__volatile
+#elif !defined(__dead) && !defined(__STRICT_ANSI__)
+#define __dead	__atribute__((__noreturn__))
+#elif !defined(__dead)
+#define __dead	/* NORETURN */
+#endif
 
 #define VERSION "1.0~beta1"
 
@@ -146,7 +162,7 @@ char	*getgname(const game *);
 void	 full_redraw(scrgame *);
 void	 printinstrs(scrgame *);
 int	 gameend(const scrgame *);
-__dead	 void quit(void);
+__dead void	 quit(void);
 /*	 During game */
 int	 inmill(const point *);
 point	*mill_handler(scrgame *, char *, int);
