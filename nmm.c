@@ -130,6 +130,7 @@ static const struct strkey dirc[] = {
   { 0 } /* GCC will incorrectly complain about this, GCC BUG#53119 */
 };
 
+__BEGIN_DECLS
 int	 joinpts(const int, point *, point *);
 void	 joinns(point *, point *);
 void	 joinwe(point *, point *);
@@ -184,6 +185,7 @@ point	*phaseone(scrgame *);
 point	*phasetwothree(scrgame *);
 char	*lower(char *);
 int	 main(int, char **);
+__END_DECLS
 
 const char *const instructions[] = {
   "The board consists of positions connected with dashed lines, initially\n",
