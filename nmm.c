@@ -499,6 +499,7 @@ update_scorebox(WINDOW *w, const game *g)
   } else {
     mvwprintw(w, 7, 2, "White's move: ");
   }
+  mvwaddstr(w, promptrow, promptcol, "          |");
   wrefresh(w);
 }
 
