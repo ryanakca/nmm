@@ -1037,15 +1037,15 @@ getinput(scrgame *sg, char *inp, const int length)
 	  mvwaddch(sg->score_w, promptrow, promptcol, ' ');
 	  l--;
 	}
-      } else if (ch == '?' && l == 0) {
-	printinstrs(sg);
-	mvwaddch(sg->score_w, promptrow, promptcol, ' ');
-	l--;
       } else {
 	inp[l] = (char) ch;
 	mvwaddch(sg->score_w, promptrow, promptcol + l, ch);
       }
       wrefresh(sg->score_w);
+    } else if (ch == '?' && l == 0) {
+      printinstrs(sg);
+      mvwaddch(sg->score_w, promptrow, promptcol, ' ');
+      l--;
     } else if (ch == '\n') {
       inp[l] = '\0';
       break;
