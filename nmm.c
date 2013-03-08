@@ -716,19 +716,23 @@ getgname(const game *g)
 void
 full_redraw(scrgame *sg)
 {
-  static char vers[25];
+  static char *name = NULL;
   static size_t vers_len;
   static const char *helpstr = "? : help";
   static const size_t helplen = 8;
-  snprintf(vers, 25, "%s version %s", getgname(sg->game), VERSION);
-  vers_len = strnlen(vers, 25);
+  if (!name) {
+    name = getgname(sg->game);
+  }
+  /* 10 = strlen(" version ") */
+  vers_len = strlen(name) + strlen(VERSION) + 10;
   delwin(sg->board_w);
   delwin(sg->score_w);
   delwin(sg->msg_w);
   clear();
   /* We want the ends of the version string and of
    * helpstr to line up. */
-  mvprintw(versrow, helpcol + helplen - vers_len, vers);
+  mvprintw(versrow, helpcol + helplen - vers_len,
+	   "%s version %s", name, VERSION);
   mvprintw(helprow, helpcol, helpstr);
   refresh();
   sg->board_w = create_board(sg->game);
