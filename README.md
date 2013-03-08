@@ -34,6 +34,6 @@ the install target.
 LICENSE
 -------
 
-`nmm` and company are distributed Copyright (C) 2013 Ryan Kavanagh
+`nmm` and company are Copyright (C) 2013 Ryan Kavanagh
 <rak@debian.org> and are distributed under a 3-clause revised-BSD
 license. Please see the file `LICENSE` for details.
