@@ -23,7 +23,7 @@ which will install under the prefix of `/usr/local` (see `Makefile`
 for details). If this isn't the desired location, you can override
 this setting with
 
-	make install -ePREFIX=/your/prefix install
+	make install -e PREFIX=/your/prefix install
 
 Man pages for `nmm` and company will be installed under
 `$(PREFIX)/man6/` and the `whatis` database will be updated with a
