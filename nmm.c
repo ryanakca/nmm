@@ -165,6 +165,7 @@ void	 printinstrs(scrgame *);
 int	 gameend(const scrgame *);
 __dead void	 quit(void);
 /*	 During game */
+int	 surrounded(const game *);
 int	 inmill(const point *);
 point	*mill_handler(scrgame *, char *, int);
 char	 statechar(const game *);
@@ -204,7 +205,7 @@ const char *const instructions[] = {
   "  North, South, East, West, etc. For example, `a1n' moves the piece at\n",
   "  a1 north, `g7sw' moves the piece at g7 south west. Mills are formed\n",
   "  and pieces removed as in phase 1. Phase 2 continues until a player\n",
-  "  only has 3 pieces remaining.\n",
+  "  only has 3 pieces remaining or can make no move.\n",
   "Phase 3. The player with three pieces may move a piece to any empty\n",
   "  location, e.g. `a1g7' moves the piece at a1 to location g7. The player\n",
   "  with more than three pieces moves as in phase 2. The first player to\n",
@@ -795,6 +796,30 @@ quit(void)
  * ******************************** */
 
 /*
+ * Checks if the current player can slide to any adjacent position.
+ */
+int
+surrounded(const game *g)
+{
+  int r, c, n;
+  char currplayerch = statechar(g);
+  c = 0;
+  for (r = 0; g->board[r][c]; r++) {
+    for (c = 0; g->board[r][c]; c++) {
+      if (g->board[r][c]->v == currplayerch) {
+	for (n = MINDIR; n <= MAXDIR; n++) {
+	  if (g->board[r][c]->n[n] &&
+	      g->board[r][c]->n[n]->v == EMPTY) {
+	    return 0;
+	  }
+	}
+      }
+    }
+  }
+  return 1;
+}
+
+/*
  * Is the point p in a mill?
  */
 int
@@ -1358,6 +1383,11 @@ phasetwothree(scrgame *sg)
   point *p = NULL;
   char coords[6];
   while (sg->game->pieces[WHITE] >= 3 && sg->game->pieces[BLACK] >= 3) {
+    if (sg->game->pieces[sg->game->state] > 3 && surrounded(sg->game)) {
+      update_scorebox(sg->score_w, sg->game);
+      update_board(sg->board_w, sg->game);
+      return NULL;
+    }
     getmove(sg, coords, 0);
     if (!(p = getpoint(sg->game, coords))) {
       update_msgbox(sg->msg_w, "Something went wrong...");
