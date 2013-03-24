@@ -50,7 +50,7 @@
 #define __dead	/* NORETURN */
 #endif
 
-#define VERSION "1.0~beta1"
+#define VERSION "1.0"
 
 #define EMPTY 'E'
 #define WHITEC 'W'
